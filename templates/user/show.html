@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+
+{% block mycss %}
+    <style>
+        .td{
+            text-align: center;
+        }
+    </style>
+{% endblock %}
+
+{% block middle %}
+    <h1>用户信息</h1>
+    <span>当前用户人数是：{{ users|length }}</span>
+    <table border="1" cellpadding="0" cellspacing="0" width="30%">
+    <th>序号</th>
+    <th>名字</th>
+    <th>密码</th>
+    <th>手机号</th>
+    <th>操作</th>
+    {% for user in users %}
+        <tr>
+            <td class="td">{{ loop.index }}</td>
+            <td class="td"> {{ user.username }}</td>
+            <td class="td">{{ user.password }}</td>
+            <td class="td">{{ user.phone }}</td>
+            <td class="td">
+                <a href="javascript:;" onclick="update('{{ user.username }}')">修改</a>
+                <a href="javascript:;" onclick="del('{{ user.username }}')">删除</a>
+            </td>
+        </tr>
+    {% endfor %}
+
+    </table>
+{% endblock %}
+
+{% block myjs %}
+    <script>
+    function del(username){
+        //console.log(username)
+        location.href = '/del?username=' + username
+    }
+
+    //修改的函数
+    function update(username){
+        location.href = '/update?username=' + username
+    }
+    </script>
+{% endblock %}
