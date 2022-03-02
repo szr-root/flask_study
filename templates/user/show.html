@@ -6,43 +6,54 @@
             text-align: center;
         }
     </style>
+    <script src="http://code.jquery.com/jquery-2.1.1.min.js"></script>
 {% endblock %}
 
 {% block middle %}
+    <div>
+        <a href="{{ url_for('user.register') }}">注册</a>
+        <a href="{{ url_for('user.login') }}">登录</a>
+    </div>
     <h1>用户信息</h1>
-    <span>当前用户人数是：{{ users|length }}</span>
-    <table border="1" cellpadding="0" cellspacing="0" width="30%">
-    <th>序号</th>
-    <th>名字</th>
-    <th>密码</th>
-    <th>手机号</th>
-    <th>操作</th>
-    {% for user in users %}
+    搜索: <input type="text" name="search" placeholder="输入用户名或者手机号"><input type="button" value="搜索" id="search">
+    {% if users %}
+        <span>当前用户人数是：{{ users|length }}</span>
+        <table border="1" cellpadding="0" cellspacing="0" width="80%">
         <tr>
-            <td class="td">{{ loop.index }}</td>
-            <td class="td"> {{ user.username }}</td>
-            <td class="td">{{ user.password }}</td>
-            <td class="td">{{ user.phone }}</td>
-            <td class="td">
-                <a href="javascript:;" onclick="update('{{ user.username }}')">修改</a>
-                <a href="javascript:;" onclick="del('{{ user.username }}')">删除</a>
-            </td>
+            <th>序号</th>
+            <th>名字</th>
+            <th>密码</th>
+            <th>手机号</th>
+            <th>时间</th>
+            <th>操作</th>
         </tr>
-    {% endfor %}
+
+        {% for user in users %}
+            <tr>
+                <td class="td">{{ loop.index }}</td>
+                <td class="td"> {{ user.username }}</td>
+                <td class="td">{{ user.password }}</td>
+                <td class="td">{{ user.phone }}</td>
+                <td class="td">{{ user.rdatetime }}</td>
+                <td class="td">
+                    <a href="{{ url_for('user.update') }}?id={{ user.id }}">修改</a>
+                    <a href="{{ url_for('user.user_delete') }}?id={{ user.id }}">删除</a>
+                </td>
+            </tr>
+        {% endfor %}
+    {% else %}
+        <p style="color: red;font-size: 18px">没有用户，注册一个</p>
+    {% endif %}
+
 
     </table>
 {% endblock %}
 
 {% block myjs %}
     <script>
-    function del(username){
-        //console.log(username)
-        location.href = '/del?username=' + username
-    }
-
-    //修改的函数
-    function update(username){
-        location.href = '/update?username=' + username
-    }
+    $('#search').click(function (){
+        let content = $("input[name='search']").val();
+        location.href = '{{ url_for('user.search') }}?search='+content
+    })
     </script>
 {% endblock %}

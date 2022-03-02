@@ -7,7 +7,7 @@
 {% block middle %}
 <h1>用户信息更新</h1>
     <form action="{{ url_for('user.update') }}" method="post">
-        <p><input type="hidden" name="realname" value="{{ user.username }}"></p>
+        <input type="hidden" name="id" value="{{ user.id }}">
         <p><input type="text" placeholder="用户名" name="username" value="{{ user.username }}"></p>
         <p><input type="password" placeholder="密码" name="password" value="{{ user.password }}" disabled></p>
         <p><input type="text" placeholder="手机号" name="phone" value="{{ user.phone }}"></p>
